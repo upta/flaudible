@@ -1,3 +1,4 @@
+import 'package:app/screens/nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(),
+      home: NavScreen(),
     );
   }
 }
