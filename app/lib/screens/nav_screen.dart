@@ -47,18 +47,18 @@ class _NavScreenState extends State<NavScreen> {
             label: 'Home',
           ),
           _icon(
-            icon: Icons.library_books_outlined,
-            activeIcon: Icons.library_books,
+            icon: AudibleIcons.library_books,
+            activeIcon: AudibleIcons.library_books,
             label: 'Library',
           ),
           _icon(
-            icon: Icons.play_lesson_outlined,
-            activeIcon: Icons.play_lesson,
+            icon: AudibleIcons.discover_outline,
+            activeIcon: AudibleIcons.discover,
             label: 'Discover',
           ),
           _icon(
-            icon: Icons.person_outline,
-            activeIcon: Icons.person,
+            icon: AudibleIcons.profile_outline,
+            activeIcon: AudibleIcons.profile,
             label: 'Profile',
           ),
         ],
@@ -79,11 +79,17 @@ class _NavScreenState extends State<NavScreen> {
     return BottomNavigationBarItem(
       icon: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0),
-        child: Icon(icon),
+        child: Icon(
+          icon,
+          size: 22.0,
+        ),
       ),
       activeIcon: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0),
-        child: Icon(activeIcon),
+        child: Icon(
+          activeIcon,
+          size: 22.0,
+        ),
       ),
       label: label,
     );

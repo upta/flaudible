@@ -1,3 +1,4 @@
+import 'package:app/audible_icons_icons.dart';
 import 'package:app/data/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,8 +17,9 @@ class HomeScreen extends HookConsumerWidget {
         leadingWidth: 110.0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
-            iconSize: 28.0,
+            icon: const Icon(AudibleIcons.search),
+            iconSize: 20.0,
+            color: Colors.grey.shade400,
             onPressed: () {},
           )
         ],
@@ -25,7 +27,7 @@ class HomeScreen extends HookConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 12.0,
-          vertical: 24.0,
+          vertical: 20.0,
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -56,8 +58,8 @@ class HomeScreen extends HookConsumerWidget {
                   ),
                 ),
                 trailing: Icon(
-                  Icons.chevron_right,
-                  size: 30.0,
+                  AudibleIcons.chevron_right,
+                  size: 17.0,
                 ),
               ),
               SizedBox(height: 10.0),
@@ -86,8 +88,8 @@ class HomeScreen extends HookConsumerWidget {
                                 size: 30.0,
                               ),
                               Icon(
-                                Icons.play_circle_fill,
-                                size: 56.0,
+                                AudibleIcons.play,
+                                size: 48.0,
                               )
                             ],
                           ),
@@ -100,6 +102,16 @@ class HomeScreen extends HookConsumerWidget {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4.0,
+                              horizontal: 8.0,
+                            ),
+                            child: TimePlayed(
+                              length: a.length,
+                              played: a.played,
+                            ),
                           )
                         ],
                       ),
@@ -111,6 +123,49 @@ class HomeScreen extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TimePlayed extends StatelessWidget {
+  const TimePlayed({Key? key, required this.length, required this.played})
+      : super(key: key);
+
+  final Duration length;
+  final Duration played;
+
+  @override
+  Widget build(BuildContext context) {
+    final diff = length - played;
+
+    final label = diff.inHours > 0
+        ? '${diff.inHours}h ${diff.inMinutes % 60}m'
+        : '${diff.inMinutes % 60}m';
+
+    return Row(
+      children: [
+        Flexible(
+          child: LinearProgressIndicator(
+            backgroundColor: Colors.grey.shade800,
+            value: played.inMinutes.toDouble() / length.inMinutes.toDouble(),
+            valueColor: AlwaysStoppedAnimation(
+              Colors.orange,
+            ),
+          ),
+          flex: 62,
+        ),
+        Spacer(
+          flex: 6,
+        ),
+        Flexible(
+          child: Text(
+            label,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.caption,
+          ),
+          flex: 32,
+        )
+      ],
     );
   }
 }
