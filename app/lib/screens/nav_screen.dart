@@ -1,3 +1,4 @@
+import 'package:app/audible_icons_icons.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -39,25 +40,25 @@ class _NavScreenState extends State<NavScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         iconSize: 28.0,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
+        items: [
+          _icon(
+            icon: AudibleIcons.home_outline,
+            activeIcon: AudibleIcons.home,
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_books_outlined),
-            activeIcon: Icon(Icons.library_books),
+          _icon(
+            icon: Icons.library_books_outlined,
+            activeIcon: Icons.library_books,
             label: 'Library',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.play_lesson_outlined),
-            activeIcon: Icon(Icons.play_lesson_outlined),
+          _icon(
+            icon: Icons.play_lesson_outlined,
+            activeIcon: Icons.play_lesson,
             label: 'Discover',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
+          _icon(
+            icon: Icons.person_outline,
+            activeIcon: Icons.person,
             label: 'Profile',
           ),
         ],
@@ -67,6 +68,24 @@ class _NavScreenState extends State<NavScreen> {
         type: BottomNavigationBarType.fixed,
         unselectedFontSize: 12.0,
       ),
+    );
+  }
+
+  BottomNavigationBarItem _icon({
+    required IconData icon,
+    required IconData activeIcon,
+    required String? label,
+  }) {
+    return BottomNavigationBarItem(
+      icon: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6.0),
+        child: Icon(icon),
+      ),
+      activeIcon: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6.0),
+        child: Icon(activeIcon),
+      ),
+      label: label,
     );
   }
 }

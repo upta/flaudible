@@ -1,0 +1,38 @@
+{
+  "name": "AudibleIcons",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "590dc67a02c86f5aca2f18657aa6b944",
+      "css": "home_outline",
+      "code": 59392,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M473.6 0C315.8 92.5 157.9 184.8 0 277.1V1000H341.5V615.3H557.3V1000H927.5V279.3ZM473 63.1L873.4 309.5V946H611.5V561.1H287.4V946H54.1V308.2Z",
+        "width": 927
+      },
+      "search": [
+        "home_outline"
+      ]
+    },
+    {
+      "uid": "200c1bd76a983120c3272771e3c39a88",
+      "css": "home",
+      "code": 59393,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M0 996.4H316.8V590.5H587.3V999.8H928.1V296L476-0.2 0 294.3V994.7Z",
+        "width": 928
+      },
+      "search": [
+        "home"
+      ]
+    }
+  ]
+}
