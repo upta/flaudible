@@ -3,7 +3,7 @@ class Book {
     required this.author,
     required this.image,
     required this.title,
-    required this.length,
+    this.length = const Duration(),
     this.played = const Duration(),
   });
 

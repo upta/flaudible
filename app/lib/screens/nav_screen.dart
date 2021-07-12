@@ -47,10 +47,10 @@ class _NavScreenState extends State<NavScreen> {
             label: 'Home',
           ),
           _icon(
-            icon: AudibleIcons.library_books,
-            activeIcon: AudibleIcons.library_books,
-            label: 'Library',
-          ),
+              icon: AudibleIcons.library_books,
+              activeIcon: AudibleIcons.library_books,
+              label: 'Library',
+              inactiveColor: Colors.grey.shade600),
           _icon(
             icon: AudibleIcons.discover_outline,
             activeIcon: AudibleIcons.discover,
@@ -75,6 +75,7 @@ class _NavScreenState extends State<NavScreen> {
     required IconData icon,
     required IconData activeIcon,
     required String? label,
+    Color? inactiveColor,
   }) {
     return BottomNavigationBarItem(
       icon: Padding(
@@ -82,6 +83,7 @@ class _NavScreenState extends State<NavScreen> {
         child: Icon(
           icon,
           size: 22.0,
+          color: inactiveColor,
         ),
       ),
       activeIcon: Padding(

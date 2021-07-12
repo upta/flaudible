@@ -1,4 +1,6 @@
 import 'package:app/audible_icons_icons.dart';
+import 'package:app/data/mock.dart';
+import 'package:app/data/models.dart';
 import 'package:app/data/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -24,12 +26,12 @@ class HomeScreen extends HookConsumerWidget {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 20.0,
-        ),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 20.0,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -54,6 +56,7 @@ class HomeScreen extends HookConsumerWidget {
                 title: Text(
                   'Continue Listening',
                   style: TextStyle(
+                    fontSize: 18.0,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -63,65 +66,198 @@ class HomeScreen extends HookConsumerWidget {
                 ),
               ),
               SizedBox(height: 10.0),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Wrap(
-                  direction: Axis.horizontal,
-                  spacing: 9.0,
-                  children: continueList.map((a) {
-                    return Container(
-                      width: 145.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              FadeInImage.assetNetwork(
-                                height: 145.0,
-                                placeholder: 'assets/loading.png',
-                                image: a.image,
-                              ),
-                              Icon(
-                                Icons.circle,
-                                color: Colors.black,
-                                size: 30.0,
-                              ),
-                              Icon(
-                                AudibleIcons.play,
-                                size: 48.0,
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              a.title,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 4.0,
-                              horizontal: 8.0,
-                            ),
-                            child: TimePlayed(
-                              length: a.length,
-                              played: a.played,
-                            ),
-                          )
-                        ],
+              BookList(
+                books: continueList,
+                itemSize: 145.0,
+                itemSpacing: 9.0,
+                titleInset: 8.0,
+                onTap: (Book book) {},
+                footerBuilder: (_, book) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4.0,
+                      horizontal: 8.0,
+                    ),
+                    child: TimePlayed(
+                      length: book.length,
+                      played: book.played,
+                    ),
+                  );
+                },
+                overlayBuilder: (_, book) {
+                  return Stack(
+                    children: [
+                      Icon(
+                        Icons.circle,
+                        color: Colors.black,
+                        size: 30.0,
                       ),
-                    );
-                  }).toList(),
+                      Icon(
+                        AudibleIcons.play,
+                        size: 48.0,
+                      )
+                    ],
+                  );
+                },
+              ),
+              SizedBox(height: 8.0),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 0.0),
+                title: Text(
+                  'Because you listened to Rhythm of War',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
+              ),
+              BookList(
+                books: becauseYouListened,
+                itemSize: 123.0,
+                itemSpacing: 13.0,
+                onTap: (Book book) {},
+                footerBuilder: (_, book) {
+                  return Text(
+                    'by ${book.author}',
+                    style: Theme.of(context).textTheme.caption,
+                  );
+                },
+              ),
+              SizedBox(height: 8.0),
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 0.0),
+                title: Text(
+                  'Our newest can' 't-miss Audible Originals',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              BookList(
+                books: audibleOriginals,
+                itemSize: 123.0,
+                itemSpacing: 13.0,
+                onTap: (Book book) {},
+                footerBuilder: (_, book) {
+                  return Text(
+                    'by ${book.author}',
+                    style: Theme.of(context).textTheme.caption,
+                  );
+                },
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BookList extends StatelessWidget {
+  const BookList({
+    Key? key,
+    required this.books,
+    required this.itemSize,
+    required this.itemSpacing,
+    required this.onTap,
+    this.titleInset = 0.0,
+    this.footerBuilder,
+    this.overlayBuilder,
+  }) : super(key: key);
+
+  final List<Book> books;
+  final double itemSize;
+  final double itemSpacing;
+  final double titleInset;
+  final void Function(Book book) onTap;
+  final Widget Function(BuildContext context, Book book)? footerBuilder;
+  final Widget Function(BuildContext context, Book book)? overlayBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Wrap(
+        direction: Axis.horizontal,
+        spacing: itemSpacing,
+        children: books.map((book) {
+          Widget? footer;
+          Widget? overlay;
+
+          if (this.footerBuilder != null) {
+            footer = this.footerBuilder!(context, book);
+          }
+
+          if (this.overlayBuilder != null) {
+            overlay = this.overlayBuilder!(context, book);
+          }
+
+          return GestureDetector(
+            onTap: () => onTap(book),
+            child: BookDisplay(
+              book: book,
+              size: itemSize,
+              titleInset: titleInset,
+              footer: footer,
+              overlay: overlay,
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class BookDisplay extends StatelessWidget {
+  BookDisplay({
+    Key? key,
+    required this.book,
+    required this.size,
+    required this.titleInset,
+    this.footer,
+    this.overlay,
+  }) : super(key: key);
+
+  final Book book;
+  final double size;
+  final double titleInset;
+  final Widget? footer;
+  final Widget? overlay;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              FadeInImage.assetNetwork(
+                height: size,
+                placeholder: 'assets/loading.png',
+                image: book.image,
+              ),
+              if (this.overlay != null) this.overlay!
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: titleInset,
+              vertical: 8.0,
+            ),
+            child: Text(
+              book.title,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          if (this.footer != null) this.footer!
+        ],
       ),
     );
   }
