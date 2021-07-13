@@ -117,35 +117,55 @@ const audibleOriginals = [
     author: "Andy Richter",
     image: "https://m.media-amazon.com/images/I/51CFeXnwMQS._SL500_.jpg",
     title: "The Incredibly Inaccurate Biography of Andy Richter",
+    url:
+        "https://www.audible.com/pd/The-Incredibly-Inaccurate-Biography-of-Andy-Richter-Audiobook/B095V3HJ1J?ref=a_hp_c12_1_product&pf_rd_p=3ab5518f-d521-45b5-91f4-ce8bcc2d824b&pf_rd_r=VKGBB7D4QTBQNZEVA5XV",
   ),
   Book(
     author: "Tariq Trotter",
     image: "https://m.media-amazon.com/images/I/6150O9hECnS._SL500_.jpg",
     title: "7 Years",
+    includedInOriginals: true,
+    url:
+        "https://www.audible.com/pd/7-Years-Audiobook/B097FB4K9L?ref=a_hp_c15_product_1_4&pf_rd_p=4c4008de-333e-4d06-8846-bc99e1b1f0c1&pf_rd_r=WQ5CRRBVXBP92A9KETGJ",
   ),
   Book(
     author: "Stan Lee",
     image: "https://m.media-amazon.com/images/I/51MxvJtjnbS._SL500_.jpg",
     title: "Stan Lee's Alliances: A New Reality",
+    includedInOriginals: true,
+    url:
+        "https://www.audible.com/pd/Stan-Lees-Alliances-A-New-Reality-Audiobook/B0977CC26H?ref=a_hp_c15_product_1_1&pf_rd_p=4c4008de-333e-4d06-8846-bc99e1b1f0c1&pf_rd_r=WQ5CRRBVXBP92A9KETGJ",
   ),
   Book(
     author: "The Meteor",
     image: "https://m.media-amazon.com/images/I/51ZzMa3EjqS._SL500_.jpg",
     title: "In Love and Struggle Vol. 2",
+    includedInOriginals: true,
+    url:
+        "https://www.audible.com/pd/In-Love-and-Struggle-Vol-2-Audiobook/B098866KHN?ref=a_hp_c15_product_1_3&pf_rd_p=4c4008de-333e-4d06-8846-bc99e1b1f0c1&pf_rd_r=WQ5CRRBVXBP92A9KETGJ",
   ),
   Book(
     author: "Christian White",
     image: "https://m.media-amazon.com/images/I/51i6OCwgtRL._SL500_.jpg",
     title: "Still House",
+    includedInOriginals: true,
+    url:
+        "https://www.audible.com/pd/Still-House-Audiobook/B091J1DCFN?ref=a_hp_c15_product_1_2&pf_rd_p=4c4008de-333e-4d06-8846-bc99e1b1f0c1&pf_rd_r=WQ5CRRBVXBP92A9KETGJ",
   ),
   Book(
     author: "Rachel Harrison",
     image: "https://m.media-amazon.com/images/I/41pNeUlcGxS._SL500_.jpg",
     title: "The Veil",
+    includedInOriginals: true,
+    url:
+        "https://www.audible.com/pd/The-Veil-Audiobook/B095X975YQ?ref=a_hp_c15_product_1_5&pf_rd_p=4c4008de-333e-4d06-8846-bc99e1b1f0c1&pf_rd_r=WQ5CRRBVXBP92A9KETGJ",
   ),
   Book(
     author: "Dr Tim Sharp",
     image: "https://m.media-amazon.com/images/I/513MU0ZfKDS._SL500_.jpg",
     title: "Habits For Good Sleep",
+    includedInOriginals: true,
+    url:
+        "https://www.audible.com/pd/Habits-For-Happy-Children-Podcast/B098GVHR87?ref=a_hp_c15_product_1_6&pf_rd_p=4c4008de-333e-4d06-8846-bc99e1b1f0c1&pf_rd_r=WQ5CRRBVXBP92A9KETGJ",
   ),
 ];

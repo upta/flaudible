@@ -1,5 +1,4 @@
 import 'package:app/audible_icons_icons.dart';
-import 'package:app/data/mock.dart';
 import 'package:app/data/models.dart';
 import 'package:app/data/providers.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,8 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final continueList = ref.watch(continueListeningProvider);
+    final becauseYouListened = ref.watch(becauseYouListenedProvider);
+    final audibleOriginals = ref.watch(audibleOriginalsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,6 +87,7 @@ class HomeScreen extends HookConsumerWidget {
                 },
                 overlayBuilder: (_, book) {
                   return Stack(
+                    alignment: Alignment.center,
                     children: [
                       Icon(
                         Icons.circle,
@@ -127,7 +129,7 @@ class HomeScreen extends HookConsumerWidget {
               ListTile(
                 contentPadding: EdgeInsets.only(left: 0.0),
                 title: Text(
-                  'Our newest can' 't-miss Audible Originals',
+                  "Our newest can't-miss Audible Originals",
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w700,
@@ -140,12 +142,62 @@ class HomeScreen extends HookConsumerWidget {
                 itemSpacing: 13.0,
                 onTap: (Book book) {},
                 footerBuilder: (_, book) {
-                  return Text(
-                    'by ${book.author}',
-                    style: Theme.of(context).textTheme.caption,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'by ${book.author}',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      if (book.includedInOriginals)
+                        SizedBox(
+                          height: 9.0,
+                        ),
+                      if (book.includedInOriginals)
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(2.0),
+                            ),
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                Colors.orange.shade400,
+                                Colors.orange.shade600,
+                              ],
+                            ),
+                          ),
+                          padding: EdgeInsets.only(
+                            top: 3.0,
+                            left: 3.0,
+                            right: 3.0,
+                            bottom: 2.0,
+                          ),
+                          child: Text(
+                            "INCLUDED",
+                            style:
+                                Theme.of(context).textTheme.caption!.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 11.0,
+                                    ),
+                          ),
+                        )
+                    ],
                   );
                 },
-              )
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "Browse all Originals >",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -244,9 +296,11 @@ class BookDisplay extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: titleInset,
-              vertical: 8.0,
+            padding: EdgeInsets.only(
+              left: titleInset,
+              right: titleInset,
+              top: 8.0,
+              bottom: 13.0,
             ),
             child: Text(
               book.title,

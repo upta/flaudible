@@ -5,6 +5,8 @@ class Book {
     required this.title,
     this.length = const Duration(),
     this.played = const Duration(),
+    this.includedInOriginals = false,
+    this.url = "",
   });
 
   final String author;
@@ -12,4 +14,6 @@ class Book {
   final String title;
   final Duration length;
   final Duration played;
+  final bool includedInOriginals;
+  final String url;
 }
