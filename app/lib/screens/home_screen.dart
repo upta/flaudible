@@ -4,7 +4,6 @@ import 'package:app/data/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:marquee/marquee.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,196 +29,191 @@ class HomeScreen extends HookConsumerWidget {
       ),
       body: Column(
         children: [
+          Container(
+            height: 0.5,
+            decoration: BoxDecoration(
+              color: Colors.black12,
+            ),
+          ),
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Colors.black12,
-                    width: 1.0,
-                  ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 16.0,
                 ),
-              ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 16.0,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Good afternoon, Brian.',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline5!
-                            .copyWith(fontWeight: FontWeight.w700),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Good afternoon, Brian.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5!
+                          .copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      'You have 3 credits to spend.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(color: Colors.grey.shade400),
+                    ),
+                    SizedBox(height: 8.0),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 0.0),
+                      title: Text(
+                        'Continue Listening',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        'You have 3 credits to spend.',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1!
-                            .copyWith(color: Colors.grey.shade400),
+                      trailing: Icon(
+                        AudibleIcons.chevron_right,
+                        size: 17.0,
                       ),
-                      SizedBox(height: 8.0),
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: 0.0),
-                        title: Text(
-                          'Continue Listening',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(height: 12.0),
+                    BookList(
+                      books: continueList,
+                      itemSize: 145.0,
+                      itemSpacing: 9.0,
+                      titleInset: 8.0,
+                      onTap: (Book book) {},
+                      footerBuilder: (_, book) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0,
                           ),
-                        ),
-                        trailing: Icon(
-                          AudibleIcons.chevron_right,
-                          size: 17.0,
-                        ),
-                      ),
-                      SizedBox(height: 12.0),
-                      BookList(
-                        books: continueList,
-                        itemSize: 145.0,
-                        itemSpacing: 9.0,
-                        titleInset: 8.0,
-                        onTap: (Book book) {},
-                        footerBuilder: (_, book) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
+                          child: TimePlayed(
+                            length: book.length,
+                            played: book.played,
+                          ),
+                        );
+                      },
+                      overlayBuilder: (_, book) {
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Icon(
+                              Icons.circle,
+                              color: Colors.black,
+                              size: 30.0,
                             ),
-                            child: TimePlayed(
-                              length: book.length,
-                              played: book.played,
+                            Icon(
+                              AudibleIcons.play,
+                              size: 48.0,
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(height: 18.0),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 0.0),
+                      title: Text(
+                        'Because you listened to Rhythm of War',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    BookList(
+                      books: becauseYouListened,
+                      itemSize: 123.0,
+                      itemSpacing: 13.0,
+                      onTap: (Book book) {},
+                      footerBuilder: (_, book) {
+                        return Text(
+                          'by ${book.author}',
+                          style: Theme.of(context).textTheme.caption,
+                        );
+                      },
+                    ),
+                    SizedBox(height: 8.0),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 0.0),
+                      title: Text(
+                        "Our newest can't-miss Audible Originals",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    BookList(
+                      books: audibleOriginals,
+                      itemSize: 123.0,
+                      itemSpacing: 13.0,
+                      onTap: (Book book) {},
+                      footerBuilder: (_, book) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'by ${book.author}',
+                              style: Theme.of(context).textTheme.caption,
                             ),
-                          );
-                        },
-                        overlayBuilder: (_, book) {
-                          return Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Icon(
-                                Icons.circle,
-                                color: Colors.black,
-                                size: 30.0,
+                            if (book.includedInOriginals)
+                              SizedBox(
+                                height: 9.0,
                               ),
-                              Icon(
-                                AudibleIcons.play,
-                                size: 48.0,
-                              )
-                            ],
-                          );
-                        },
-                      ),
-                      SizedBox(height: 18.0),
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: 0.0),
-                        title: Text(
-                          'Because you listened to Rhythm of War',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8.0),
-                      BookList(
-                        books: becauseYouListened,
-                        itemSize: 123.0,
-                        itemSpacing: 13.0,
-                        onTap: (Book book) {},
-                        footerBuilder: (_, book) {
-                          return Text(
-                            'by ${book.author}',
-                            style: Theme.of(context).textTheme.caption,
-                          );
-                        },
-                      ),
-                      SizedBox(height: 8.0),
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: 0.0),
-                        title: Text(
-                          "Our newest can't-miss Audible Originals",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      BookList(
-                        books: audibleOriginals,
-                        itemSize: 123.0,
-                        itemSpacing: 13.0,
-                        onTap: (Book book) {},
-                        footerBuilder: (_, book) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'by ${book.author}',
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                              if (book.includedInOriginals)
-                                SizedBox(
-                                  height: 9.0,
+                            if (book.includedInOriginals)
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(2.0),
+                                  ),
+                                  gradient: LinearGradient(
+                                    colors: <Color>[
+                                      Colors.orange.shade400,
+                                      Colors.orange.shade600,
+                                    ],
+                                  ),
                                 ),
-                              if (book.includedInOriginals)
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(2.0),
-                                    ),
-                                    gradient: LinearGradient(
-                                      colors: <Color>[
-                                        Colors.orange.shade400,
-                                        Colors.orange.shade600,
-                                      ],
-                                    ),
-                                  ),
-                                  padding: EdgeInsets.only(
-                                    top: 3.0,
-                                    left: 3.0,
-                                    right: 3.0,
-                                    bottom: 2.0,
-                                  ),
-                                  child: Text(
-                                    "INCLUDED",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .caption!
-                                        .copyWith(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 11.0,
-                                        ),
-                                  ),
-                                )
-                            ],
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "Browse all Originals >",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                                padding: EdgeInsets.only(
+                                  top: 3.0,
+                                  left: 3.0,
+                                  right: 3.0,
+                                  bottom: 2.0,
+                                ),
+                                child: Text(
+                                  "INCLUDED",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 11.0,
+                                      ),
+                                ),
+                              )
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Browse all Originals >",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ),
-          MiniPlayer(),
+          )
         ],
       ),
     );
@@ -376,109 +370,6 @@ class TimePlayed extends StatelessWidget {
           flex: 32,
         )
       ],
-    );
-  }
-}
-
-class MiniPlayer extends HookConsumerWidget {
-  const MiniPlayer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final book = ref.watch(currentlyPlayingProvider);
-    final diff = book.length - book.played;
-
-    final remaining = diff.inHours > 0
-        ? '${diff.inHours}h ${diff.inMinutes % 60}m'
-        : '${diff.inMinutes % 60}m';
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.black45,
-            width: 0.5,
-          ),
-        ),
-        color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-      ),
-      padding: const EdgeInsets.only(
-        top: 11.0,
-        right: 15.0,
-        bottom: 11.0,
-        left: 11.0,
-      ),
-      child: Row(
-        children: [
-          FadeInImage.assetNetwork(
-            width: 48.0,
-            placeholder: 'assets/loading.png',
-            image: book.image,
-          ),
-          SizedBox(
-            width: 11.0,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ShaderMask(
-                  shaderCallback: (rect) {
-                    return LinearGradient(
-                      colors: [
-                        Theme.of(context).textTheme.bodyText1!.color!,
-                        Colors.transparent,
-                      ],
-                      stops: [
-                        0.9,
-                        1.0,
-                      ],
-                    ).createShader(rect);
-                  },
-                  child: SizedBox(
-                    height: 20.0,
-                    child: Marquee(
-                      text: '${book.title} | ${book.currentChapter}',
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      blankSpace: 50.0,
-                      pauseAfterRound: Duration(
-                        seconds: 3,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 2.0,
-                    top: 1.0,
-                  ),
-                  child: Text(
-                    '$remaining left',
-                    style: Theme.of(context).textTheme.caption!.copyWith(
-                          fontSize: 11.0,
-                        ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 28.0,
-          ),
-          Icon(
-            AudibleIcons.back30,
-            size: 31.0,
-            color: Colors.grey.shade400,
-          ),
-          SizedBox(
-            width: 17.0,
-          ),
-          Icon(
-            Icons.play_circle_fill,
-            size: 49.0,
-          ),
-        ],
-      ),
     );
   }
 }
