@@ -6,7 +6,8 @@ const continueListening = [
     image: "https://m.media-amazon.com/images/I/61SUJE6inQL._SL500_.jpg",
     title: "Rhythm of War",
     length: Duration(hours: 57, minutes: 26),
-    played: Duration(hours: 36, minutes: 21),
+    played: Duration(hours: 36, minutes: 30),
+    currentChapter: "66. Bearer of Agonies",
   ),
   Book(
     author: "Brandon Sanderson",

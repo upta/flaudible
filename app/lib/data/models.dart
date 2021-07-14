@@ -7,6 +7,7 @@ class Book {
     this.played = const Duration(),
     this.includedInOriginals = false,
     this.url = "",
+    this.currentChapter = "",
   });
 
   final String author;
@@ -16,4 +17,5 @@ class Book {
   final Duration played;
   final bool includedInOriginals;
   final String url;
+  final String currentChapter;
 }

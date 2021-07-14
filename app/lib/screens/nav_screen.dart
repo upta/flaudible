@@ -47,10 +47,11 @@ class _NavScreenState extends State<NavScreen> {
             label: 'Home',
           ),
           _icon(
-              icon: AudibleIcons.library_books,
-              activeIcon: AudibleIcons.library_books,
-              label: 'Library',
-              inactiveColor: Colors.grey.shade600),
+            icon: AudibleIcons.library_books,
+            activeIcon: AudibleIcons.library_books,
+            label: 'Library',
+            inactiveColor: Colors.grey.shade600,
+          ),
           _icon(
             icon: AudibleIcons.discover_outline,
             activeIcon: AudibleIcons.discover,
