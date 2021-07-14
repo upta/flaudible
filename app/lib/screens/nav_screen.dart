@@ -1,6 +1,7 @@
 import 'package:app/audible_icons_icons.dart';
 import 'package:app/data/providers.dart';
 import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/library_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:marquee/marquee.dart';
@@ -17,7 +18,7 @@ class _NavScreenState extends State<NavScreen> {
 
   final _screens = [
     HomeScreen(),
-    const Scaffold(body: Center(child: Text("Library"))),
+    LibraryScreen(),
     const Scaffold(body: Center(child: Text("Discover"))),
     const Scaffold(body: Center(child: Text("Profile"))),
   ];

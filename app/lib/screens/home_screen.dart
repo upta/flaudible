@@ -1,8 +1,8 @@
 import 'package:app/audible_icons_icons.dart';
 import 'package:app/data/models.dart';
 import 'package:app/data/providers.dart';
+import 'package:app/shared/search_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -18,14 +18,7 @@ class HomeScreen extends HookConsumerWidget {
       appBar: AppBar(
         leading: Image.asset("assets/audible_logo_bw_ko.png"),
         leadingWidth: 110.0,
-        actions: [
-          IconButton(
-            icon: const Icon(AudibleIcons.search),
-            iconSize: 20.0,
-            color: Colors.grey.shade400,
-            onPressed: () {},
-          )
-        ],
+        actions: [SearchButton()],
       ),
       body: Column(
         children: [
