@@ -1,7 +1,6 @@
-import 'package:app/audible_icons_icons.dart';
-import 'package:app/data/models.dart';
-import 'package:app/data/providers.dart';
-import 'package:app/shared/search_button.dart';
+import 'package:flaudible/data/data.dart';
+import 'package:flaudible/app/app.dart';
+import 'package:flaudible/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

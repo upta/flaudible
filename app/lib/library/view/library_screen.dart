@@ -1,4 +1,4 @@
-import 'package:app/shared/search_button.dart';
+import 'package:flaudible/app/widget/search_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -21,15 +21,18 @@ class LibraryScreen extends HookConsumerWidget {
           children: [
             _buildTabs(tabs),
             Expanded(
-              child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  Text("All"),
-                  Text("Podcasts"),
-                  Text("Authors"),
-                  Text("Genres"),
-                  Text("Collections"),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    Text("All"),
+                    Text("Podcasts"),
+                    Text("Authors"),
+                    Text("Genres"),
+                    Text("Collections"),
+                  ],
+                ),
               ),
             ),
           ],
@@ -45,13 +48,14 @@ class LibraryScreen extends HookConsumerWidget {
         fontWeight: FontWeight.bold,
         height: 0.0,
       ),
+      unselectedLabelColor: Colors.grey,
       unselectedLabelStyle: TextStyle(
         fontSize: 18.0,
       ),
       tabs: tabs
           .map(
             (e) => Container(
-              height: 25.0,
+              height: 30.0,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(e),
