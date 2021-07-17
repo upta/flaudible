@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
   runApp(
-    ProviderScope(
+    const ProviderScope(
       child: App(),
     ),
   );

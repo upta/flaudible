@@ -17,13 +17,15 @@ class HomeScreen extends HookConsumerWidget {
       appBar: AppBar(
         leading: Image.asset("assets/audible_logo_bw_ko.png"),
         leadingWidth: 110.0,
-        actions: [SearchButton()],
+        actions: const [
+          SearchButton(),
+        ],
       ),
       body: Column(
         children: [
           Container(
             height: 0.5,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.black12,
             ),
           ),
@@ -44,7 +46,7 @@ class HomeScreen extends HookConsumerWidget {
                           .headline5!
                           .copyWith(fontWeight: FontWeight.w700),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Text(
                       'You have 3 credits to spend.',
                       style: Theme.of(context)
@@ -52,8 +54,8 @@ class HomeScreen extends HookConsumerWidget {
                           .subtitle1!
                           .copyWith(color: Colors.grey.shade400),
                     ),
-                    SizedBox(height: 8.0),
-                    ListTile(
+                    const SizedBox(height: 8.0),
+                    const ListTile(
                       contentPadding: EdgeInsets.only(left: 0.0),
                       title: Text(
                         'Continue Listening',
@@ -67,7 +69,7 @@ class HomeScreen extends HookConsumerWidget {
                         size: 17.0,
                       ),
                     ),
-                    SizedBox(height: 12.0),
+                    const SizedBox(height: 12.0),
                     BookList(
                       books: continueList,
                       itemSize: 145.0,
@@ -88,7 +90,7 @@ class HomeScreen extends HookConsumerWidget {
                       overlayBuilder: (_, book) {
                         return Stack(
                           alignment: Alignment.center,
-                          children: [
+                          children: const [
                             Icon(
                               Icons.circle,
                               color: Colors.black,
@@ -102,8 +104,8 @@ class HomeScreen extends HookConsumerWidget {
                         );
                       },
                     ),
-                    SizedBox(height: 18.0),
-                    ListTile(
+                    const SizedBox(height: 18.0),
+                    const ListTile(
                       contentPadding: EdgeInsets.only(left: 0.0),
                       title: Text(
                         'Because you listened to Rhythm of War',
@@ -113,7 +115,7 @@ class HomeScreen extends HookConsumerWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     BookList(
                       books: becauseYouListened,
                       itemSize: 123.0,
@@ -126,8 +128,8 @@ class HomeScreen extends HookConsumerWidget {
                         );
                       },
                     ),
-                    SizedBox(height: 8.0),
-                    ListTile(
+                    const SizedBox(height: 8.0),
+                    const ListTile(
                       contentPadding: EdgeInsets.only(left: 0.0),
                       title: Text(
                         "Our newest can't-miss Audible Originals",
@@ -151,13 +153,13 @@ class HomeScreen extends HookConsumerWidget {
                               style: Theme.of(context).textTheme.caption,
                             ),
                             if (book.includedInOriginals)
-                              SizedBox(
+                              const SizedBox(
                                 height: 9.0,
                               ),
                             if (book.includedInOriginals)
                               Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(2.0),
                                   ),
                                   gradient: LinearGradient(
@@ -167,7 +169,7 @@ class HomeScreen extends HookConsumerWidget {
                                     ],
                                   ),
                                 ),
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                   top: 3.0,
                                   left: 3.0,
                                   right: 3.0,
@@ -189,10 +191,10 @@ class HomeScreen extends HookConsumerWidget {
                         );
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30.0,
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         "Browse all Originals >",
@@ -243,12 +245,12 @@ class BookList extends StatelessWidget {
           Widget? footer;
           Widget? overlay;
 
-          if (this.footerBuilder != null) {
-            footer = this.footerBuilder!(context, book);
+          if (footerBuilder != null) {
+            footer = footerBuilder!(context, book);
           }
 
-          if (this.overlayBuilder != null) {
-            overlay = this.overlayBuilder!(context, book);
+          if (overlayBuilder != null) {
+            overlay = overlayBuilder!(context, book);
           }
 
           return GestureDetector(
@@ -268,7 +270,7 @@ class BookList extends StatelessWidget {
 }
 
 class BookDisplay extends StatelessWidget {
-  BookDisplay({
+  const BookDisplay({
     Key? key,
     required this.book,
     required this.size,
@@ -285,7 +287,7 @@ class BookDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: size,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,7 +300,7 @@ class BookDisplay extends StatelessWidget {
                 placeholder: 'assets/loading.png',
                 image: book.image,
               ),
-              if (this.overlay != null) this.overlay!
+              if (overlay != null) overlay!
             ],
           ),
           Padding(
@@ -311,12 +313,12 @@ class BookDisplay extends StatelessWidget {
             child: Text(
               book.title,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
-          if (this.footer != null) this.footer!
+          if (footer != null) footer!
         ],
       ),
     );
@@ -344,13 +346,13 @@ class TimePlayed extends StatelessWidget {
           child: LinearProgressIndicator(
             backgroundColor: Colors.grey.shade800,
             value: played.inMinutes.toDouble() / length.inMinutes.toDouble(),
-            valueColor: AlwaysStoppedAnimation(
+            valueColor: const AlwaysStoppedAnimation(
               Colors.orange,
             ),
           ),
           flex: 62,
         ),
-        Spacer(
+        const Spacer(
           flex: 6,
         ),
         Flexible(

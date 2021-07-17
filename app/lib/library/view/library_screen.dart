@@ -13,16 +13,16 @@ class LibraryScreen extends HookConsumerWidget {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          actions: [
+          actions: const [
             SearchButton(),
           ],
         ),
         body: Column(
           children: [
             _buildTabs(tabs),
-            Expanded(
+            const Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: TabBarView(
                   physics: NeverScrollableScrollPhysics(),
                   children: [
@@ -43,18 +43,18 @@ class LibraryScreen extends HookConsumerWidget {
 
   Widget _buildTabs(List<String> tabs) {
     return TabBar(
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         fontSize: 30.0,
         fontWeight: FontWeight.bold,
         height: 0.0,
       ),
       unselectedLabelColor: Colors.grey,
-      unselectedLabelStyle: TextStyle(
+      unselectedLabelStyle: const TextStyle(
         fontSize: 18.0,
       ),
       tabs: tabs
           .map(
-            (e) => Container(
+            (e) => SizedBox(
               height: 30.0,
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -64,7 +64,7 @@ class LibraryScreen extends HookConsumerWidget {
           )
           .toList(),
       isScrollable: true,
-      indicator: BoxDecoration(),
+      indicator: const BoxDecoration(),
     );
   }
 }

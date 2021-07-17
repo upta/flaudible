@@ -33,7 +33,7 @@ class MiniPlayer extends HookConsumerWidget {
             placeholder: 'assets/loading.png',
             image: book.image,
           ),
-          SizedBox(
+          const SizedBox(
             width: 11.0,
           ),
           Expanded(
@@ -47,7 +47,7 @@ class MiniPlayer extends HookConsumerWidget {
                         Theme.of(context).textTheme.bodyText1!.color!,
                         Colors.transparent,
                       ],
-                      stops: [
+                      stops: const [
                         0.9,
                         1.0,
                       ],
@@ -59,7 +59,7 @@ class MiniPlayer extends HookConsumerWidget {
                       text: '${book.title} | ${book.currentChapter}',
                       crossAxisAlignment: CrossAxisAlignment.start,
                       blankSpace: 50.0,
-                      pauseAfterRound: Duration(
+                      pauseAfterRound: const Duration(
                         seconds: 3,
                       ),
                     ),
@@ -80,7 +80,7 @@ class MiniPlayer extends HookConsumerWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 28.0,
           ),
           Icon(
@@ -88,10 +88,10 @@ class MiniPlayer extends HookConsumerWidget {
             size: 31.0,
             color: Colors.grey.shade400,
           ),
-          SizedBox(
+          const SizedBox(
             width: 17.0,
           ),
-          Icon(
+          const Icon(
             Icons.play_circle_fill,
             size: 49.0,
           ),

@@ -5,18 +5,18 @@ import 'package:flaudible/library/library.dart';
 import 'package:flutter/material.dart';
 
 class LandingScreen extends StatefulWidget {
-  LandingScreen({Key? key}) : super(key: key);
+  const LandingScreen({Key? key}) : super(key: key);
 
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   final _screens = [
-    HomeScreen(),
-    LibraryScreen(),
+    const HomeScreen(),
+    const LibraryScreen(),
     const Scaffold(body: Center(child: Text("Discover"))),
     const Scaffold(body: Center(child: Text("Profile"))),
   ];
@@ -51,10 +51,10 @@ class _LandingScreenState extends State<LandingScreen> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        MiniPlayer(),
+        const MiniPlayer(),
         Container(
           height: 0.5,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.black45,
           ),
         ),
