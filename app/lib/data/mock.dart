@@ -170,3 +170,65 @@ const audibleOriginals = [
         "https://www.audible.com/pd/Habits-For-Happy-Children-Podcast/B098GVHR87?ref=a_hp_c15_product_1_6&pf_rd_p=4c4008de-333e-4d06-8846-bc99e1b1f0c1&pf_rd_r=WQ5CRRBVXBP92A9KETGJ",
   ),
 ];
+
+const allBooks = [
+  Book(
+    author: "Laura Dave",
+    image: "https://m.media-amazon.com/images/I/5197puyfAxS._SL500_.jpg",
+    title: "The Last Thing He Told Me: A Novel",
+    length: Duration(hours: 8, minutes: 49),
+  ),
+  Book(
+    author: "Paul Jarvis",
+    image: "https://m.media-amazon.com/images/I/51JPNZxrwlL._SL500_.jpg",
+    title:
+        "Company of One: Why Staying Small Is the Next Big Thing for Business",
+    length: Duration(hours: 7, minutes: 32),
+  ),
+  Book(
+    author: "Mark Manson",
+    image: "https://m.media-amazon.com/images/I/51eU0TDN4fS._SL500_.jpg",
+    title:
+        "The Subtle Art of Not Giving a F*ck & Everything Is F*cked: Two Book Combo",
+    length: Duration(hours: 12, minutes: 18),
+    wasStarted: true,
+  ),
+  Book(
+    author: "Exactly Right",
+    image: "https://m.media-amazon.com/images/I/41s7rJGE4TS._SL500_.jpg",
+    title: "My Favorite Murder with Karen Kilgariff and Georgia Hardstark",
+    numberOfEpisodes: 536,
+  ),
+  Book(
+    author: "Walter Tevis",
+    image: "https://m.media-amazon.com/images/I/51EocHLTvAL._SL500_.jpg",
+    title: "The Queen's Gambit",
+    length: Duration(hours: 11, minutes: 50),
+  ),
+  Book(
+    author: "John Green",
+    image: "https://m.media-amazon.com/images/I/51EA8sRnUHS._SL500_.jpg",
+    title: "The Anthropocene Reviewed: Essays on a Human-Centered Planet",
+    length: Duration(hours: 10, minutes: 3),
+    wasStarted: true,
+    wasFinished: true,
+  ),
+  Book(
+    author: "James Lovegrove",
+    image: "https://m.media-amazon.com/images/I/51QLAf8v-TL._SL500_.jpg",
+    title: "Firefly: Big Damn Hero: Firefly, Book 1",
+    length: Duration(hours: 9, minutes: 32),
+  ),
+  Book(
+    author: "Alexandre Dumas",
+    image: "https://m.media-amazon.com/images/I/611Eot7+zJL._SL500_.jpg",
+    title: "The Count of Monte Cristo",
+    length: Duration(hours: 52, minutes: 41),
+  ),
+  Book(
+    author: "Louisa May Alcott",
+    image: "https://m.media-amazon.com/images/I/51uhxLrvMiL._SL500_.jpg",
+    title: "Little Women: An Audible Original Drama",
+    length: Duration(hours: 12, minutes: 15),
+  ),
+];

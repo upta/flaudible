@@ -12,30 +12,47 @@ class LibraryScreen extends HookConsumerWidget {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
-        appBar: AppBar(
-          actions: const [
-            SearchButton(),
-          ],
-        ),
-        body: Column(
-          children: [
-            _buildTabs(tabs),
-            const Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
-                    Text("All"),
-                    Text("Podcasts"),
-                    Text("Authors"),
-                    Text("Genres"),
-                    Text("Collections"),
-                  ],
+        // appBar: AppBar(
+        //   actions: const [
+        //     SearchButton(),
+        //   ],
+        // ),
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                delegate: TabHeader(
+                  height: 32.0,
                 ),
+                pinned: true,
+                floating: true,
               ),
-            ),
-          ],
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Text("index $index");
+                  },
+                  childCount: 1000,
+                ),
+              )
+              // _buildTabs(tabs),
+              // const Expanded(
+              //   child: Padding(
+              //     padding: EdgeInsets.all(16.0),
+              //     child: TabBarView(
+              //       physics: NeverScrollableScrollPhysics(),
+              //       children: [
+              //         Text("All"),
+              //         Text("Podcasts"),
+              //         Text("Authors"),
+              //         Text("Genres"),
+              //         Text("Collections"),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -66,5 +83,60 @@ class LibraryScreen extends HookConsumerWidget {
       isScrollable: true,
       indicator: const BoxDecoration(),
     );
+  }
+}
+
+class TabHeader extends SliverPersistentHeaderDelegate {
+  TabHeader({
+    required this.height,
+  });
+
+  final double height;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).appBarTheme.backgroundColor,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Opacity(
+                  opacity: (shrinkOffset / 50.0).clamp(0.0, 1.0),
+                  child: const Text("All"),
+                ),
+                const SearchButton(),
+              ],
+            ),
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.teal,
+            ),
+            height: (50.0 - shrinkOffset).clamp(0.0, double.infinity),
+          ),
+          const Text("imma subtab")
+        ],
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 100.0;
+
+  @override
+  double get minExtent => 50.0;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }

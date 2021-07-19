@@ -8,6 +8,10 @@ class Book {
     this.includedInOriginals = false,
     this.url = "",
     this.currentChapter = "",
+    this.numberOfEpisodes = 0,
+    this.wasStarted = false,
+    this.wasFinished = false,
+    this.isDownloaded = false,
   });
 
   final String author;
@@ -18,4 +22,8 @@ class Book {
   final bool includedInOriginals;
   final String url;
   final String currentChapter;
+  final int numberOfEpisodes;
+  final bool wasStarted;
+  final bool wasFinished;
+  final bool isDownloaded;
 }
