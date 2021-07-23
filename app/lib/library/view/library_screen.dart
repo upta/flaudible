@@ -1,4 +1,6 @@
 import 'package:flaudible/app/widget/search_button.dart';
+import 'package:flaudible/data/data.dart';
+import 'package:flaudible/library/provider/all_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,6 +26,7 @@ class LibraryScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final allBooks = ref.watch(allBooksProvider);
     final mainTabController = useTabController(initialLength: tabs.length);
     final subTabController = useTabController(initialLength: subTabs.length);
     final mainTabindex = useState(0);
@@ -54,27 +57,16 @@ class LibraryScreen extends HookConsumerWidget {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return Text("index $index");
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: BookRow(
+                      book: allBooks[index],
+                    ),
+                  );
                 },
-                childCount: 1000,
+                childCount: allBooks.length,
               ),
             ),
-            // _buildTabs(tabs),
-            // const Expanded(
-            //   child: Padding(
-            //     padding: EdgeInsets.all(16.0),
-            //     child: TabBarView(
-            //       physics: NeverScrollableScrollPhysics(),
-            //       children: [
-            //         Text("All"),
-            //         Text("Podcasts"),
-            //         Text("Authors"),
-            //         Text("Genres"),
-            //         Text("Collections"),
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -176,38 +168,6 @@ class TabHeader extends SliverPersistentHeaderDelegate {
         },
         tabController: tabController,
       ),
-      // child: Padding(
-      //   padding: const EdgeInsets.only(left: 0.0),
-      //   child: TabBar(
-      //     controller: tabController,
-      //     labelStyle: const TextStyle(
-      //       fontSize: 34.0,
-      //       fontWeight: FontWeight.bold,
-      //       height: 0.0,
-      //     ),
-      //     labelPadding: const EdgeInsets.symmetric(
-      //       horizontal: 12.0,
-      //       vertical: 0.0,
-      //     ),
-      //     unselectedLabelColor: Colors.grey,
-      //     unselectedLabelStyle: const TextStyle(
-      //       fontSize: 20.0,
-      //     ),
-      //     tabs: tabs
-      //         .map(
-      //           (e) => SizedBox(
-      //             height: 30.0,
-      //             child: Align(
-      //               alignment: Alignment.bottomCenter,
-      //               child: Text(e),
-      //             ),
-      //           ),
-      //         )
-      //         .toList(),
-      //     isScrollable: true,
-      //     indicator: const BoxDecoration(),
-      //   ),
-      // ),
     );
   }
 
@@ -257,9 +217,9 @@ class TabHeader extends SliverPersistentHeaderDelegate {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "115 titles",
-                style: TextStyle(
+              Text(
+                "${allBooks.length} titles",
+                style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -362,6 +322,73 @@ class MainTabBar extends HookWidget {
           },
         ).toList(),
       ),
+    );
+  }
+}
+
+class BookRow extends StatelessWidget {
+  const BookRow({
+    Key? key,
+    required this.book,
+  }) : super(key: key);
+
+  final Book book;
+
+  @override
+  Widget build(BuildContext context) {
+    final duration = book.length.inHours > 0
+        ? '${book.length.inHours}h ${book.length.inMinutes % 60}m'
+        : '${book.length.inMinutes % 60}m';
+
+    return Row(
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            FadeInImage.assetNetwork(
+              height: 100.0,
+              placeholder: 'assets/loading.png',
+              image: book.image,
+            ),
+          ],
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  book.title,
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w700,
+                      ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(
+                  height: 15.0,
+                ),
+                Text(
+                  book.numberOfEpisodes == 0
+                      ? 'By ${book.author}'
+                      : '${book.numberOfEpisodes} episodes',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                if (book.numberOfEpisodes == 0) ...[
+                  const SizedBox(
+                    height: 9.0,
+                  ),
+                  Text(
+                    duration,
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ]
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
