@@ -28,7 +28,6 @@ class LibraryScreen extends HookConsumerWidget {
     final subTabController = useTabController(initialLength: subTabs.length);
     final mainTabindex = useState(0);
     final subTabindex = useState(0);
-    // final key = GlobalKey();
 
     mainTabController.addListener(() {
       mainTabindex.value = mainTabController.index;
@@ -97,7 +96,7 @@ class TabHeader extends SliverPersistentHeaderDelegate {
   final TabController subTabController;
 
   final double _searchHeight = kToolbarHeight;
-  final double _tabsHeight = 30.0;
+  final double _tabsHeight = 40.0;
   final double _subTabsHeight = 15.0 + 34.0 + 35.0 + 36.0;
 
   @override
@@ -157,38 +156,58 @@ class TabHeader extends SliverPersistentHeaderDelegate {
   ) {
     return SizedBox(
       height: (_tabsHeight - shrinkOffset).clamp(0.0, double.infinity),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 0.0),
-        child: TabBar(
-          controller: tabController,
-          labelStyle: const TextStyle(
-            fontSize: 34.0,
-            fontWeight: FontWeight.bold,
-            height: 0.0,
-          ),
-          labelPadding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 0.0,
-          ),
-          unselectedLabelColor: Colors.grey,
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 20.0,
-          ),
-          tabs: tabs
-              .map(
-                (e) => SizedBox(
-                  height: 30.0,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(e),
-                  ),
-                ),
-              )
-              .toList(),
-          isScrollable: true,
-          indicator: const BoxDecoration(),
-        ),
+      child: MainTabBar(
+        length: tabs.length,
+        tabBuilder: (_, index, isActive) {
+          final style = isActive
+              ? const TextStyle(
+                  fontSize: 34.0,
+                  fontWeight: FontWeight.bold,
+                )
+              : const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 20.0,
+                );
+
+          return Text(
+            tabs[index],
+            style: style,
+          );
+        },
+        tabController: tabController,
       ),
+      // child: Padding(
+      //   padding: const EdgeInsets.only(left: 0.0),
+      //   child: TabBar(
+      //     controller: tabController,
+      //     labelStyle: const TextStyle(
+      //       fontSize: 34.0,
+      //       fontWeight: FontWeight.bold,
+      //       height: 0.0,
+      //     ),
+      //     labelPadding: const EdgeInsets.symmetric(
+      //       horizontal: 12.0,
+      //       vertical: 0.0,
+      //     ),
+      //     unselectedLabelColor: Colors.grey,
+      //     unselectedLabelStyle: const TextStyle(
+      //       fontSize: 20.0,
+      //     ),
+      //     tabs: tabs
+      //         .map(
+      //           (e) => SizedBox(
+      //             height: 30.0,
+      //             child: Align(
+      //               alignment: Alignment.bottomCenter,
+      //               child: Text(e),
+      //             ),
+      //           ),
+      //         )
+      //         .toList(),
+      //     isScrollable: true,
+      //     indicator: const BoxDecoration(),
+      //   ),
+      // ),
     );
   }
 
@@ -279,5 +298,70 @@ class TabHeader extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return true;
+  }
+}
+
+class MainTabBar extends HookWidget {
+  MainTabBar({
+    Key? key,
+    required this.length,
+    required this.tabBuilder,
+    required this.tabController,
+  }) : super(key: key);
+
+  final int length;
+  final Widget Function(
+    BuildContext context,
+    int index,
+    bool isActive,
+  ) tabBuilder;
+  final TabController tabController;
+  late final _iterable = Iterable<int>.generate(length);
+
+  @override
+  Widget build(BuildContext context) {
+    final keys = useState(
+      _iterable.map((index) => GlobalKey()).toList(),
+    );
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: _iterable.map(
+          (index) {
+            final key = keys.value[index];
+
+            return GestureDetector(
+              key: key,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: tabBuilder(
+                  context,
+                  index,
+                  tabController.index == index,
+                ),
+              ),
+              onTap: () async {
+                tabController.animateTo(index);
+
+                await Future.delayed(
+                  const Duration(milliseconds: 50),
+                ); // ensuring the text style has changed before animating
+
+                Scrollable.ensureVisible(
+                  key.currentContext!,
+                  duration: const Duration(
+                    milliseconds: 200,
+                  ),
+                  alignment: 0.5,
+                );
+              },
+            );
+          },
+        ).toList(),
+      ),
+    );
   }
 }
