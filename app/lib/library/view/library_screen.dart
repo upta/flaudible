@@ -402,18 +402,12 @@ class BookRow extends StatelessWidget {
     Book book,
   ) {
     if (book.numberOfEpisodes > 0) {
-<<<<<<< HEAD
       return const Padding(
         padding: EdgeInsets.only(right: 5.0),
         child: Icon(
           AudibleIcons.chevron_right,
           size: 19.0,
         ),
-=======
-      return const Icon(
-        Icons.chevron_right,
-        size: 32.0,
->>>>>>> master
       );
     }
 
