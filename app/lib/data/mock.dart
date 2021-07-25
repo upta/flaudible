@@ -192,6 +192,7 @@ const allBooks = [
         "The Subtle Art of Not Giving a F*ck & Everything Is F*cked: Two Book Combo",
     length: Duration(hours: 12, minutes: 18),
     wasStarted: true,
+    isDownloaded: true,
   ),
   Book(
     author: "Exactly Right",
@@ -212,6 +213,7 @@ const allBooks = [
     length: Duration(hours: 10, minutes: 3),
     wasStarted: true,
     wasFinished: true,
+    isDownloaded: true,
   ),
   Book(
     author: "James Lovegrove",

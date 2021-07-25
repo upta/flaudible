@@ -1,5 +1,6 @@
 import 'package:flaudible/app/widget/search_button.dart';
 import 'package:flaudible/data/data.dart';
+import 'package:flaudible/library/library.dart';
 import 'package:flaudible/library/provider/all_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -342,19 +343,23 @@ class BookRow extends StatelessWidget {
 
     return Row(
       children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            FadeInImage.assetNetwork(
-              height: 100.0,
-              placeholder: 'assets/loading.png',
-              image: book.image,
-            ),
-          ],
+        SizedBox(
+          width: 93.0,
+          height: 93.0,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              FadeInImage.assetNetwork(
+                placeholder: 'assets/loading.png',
+                image: book.image,
+              ),
+              if (!book.isDownloaded) const DownloadOverlay(),
+            ],
+          ),
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 13.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -387,8 +392,28 @@ class BookRow extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
+        _buildMoreIcon(book),
       ],
+    );
+  }
+
+  Widget _buildMoreIcon(
+    Book book,
+  ) {
+    if (book.numberOfEpisodes > 0) {
+      return const Padding(
+        padding: EdgeInsets.only(right: 5.0),
+        child: Icon(
+          AudibleIcons.chevron_right,
+          size: 19.0,
+        ),
+      );
+    }
+
+    return const Icon(
+      Icons.more_vert,
+      size: 28.0,
     );
   }
 }
