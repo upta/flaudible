@@ -24,6 +24,9 @@ class App extends StatelessWidget {
           backgroundColor: Color.fromARGB(255, 36, 39, 40),
           selectedItemColor: Colors.white,
         ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          modalBackgroundColor: Color.fromARGB(255, 36, 39, 40),
+        ),
         scaffoldBackgroundColor: const Color.fromARGB(255, 20, 20, 20),
       ),
       debugShowCheckedModeBanner: false,

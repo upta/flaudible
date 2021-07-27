@@ -393,12 +393,16 @@ class BookRow extends StatelessWidget {
             ),
           ),
         ),
-        _buildMoreIcon(book),
+        _buildMoreIcon(
+          context,
+          book,
+        ),
       ],
     );
   }
 
   Widget _buildMoreIcon(
+    BuildContext context,
     Book book,
   ) {
     if (book.numberOfEpisodes > 0) {
@@ -411,9 +415,107 @@ class BookRow extends StatelessWidget {
       );
     }
 
-    return const Icon(
-      Icons.more_vert,
-      size: 28.0,
+    return GestureDetector(
+      child: const Icon(
+        Icons.more_vert,
+        size: 28.0,
+      ),
+      onTap: () {
+        showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          builder: (BuildContext context) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: const MoreSheet(),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class MoreSheet extends StatelessWidget {
+  const MoreSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20.0,
+              horizontal: 16.0,
+            ),
+            child: Column(
+              children: [
+                _buildItem(Icons.share_outlined, 'Share'),
+                _buildItem(Icons.details_outlined, 'Details'),
+                _buildItem(
+                  AudibleIcons.download_arrow,
+                  'Download',
+                  iconSize: 16.0,
+                ),
+                _buildItem(Icons.favorite_outline, 'Add to favorites'),
+                _buildItem(Icons.archive_outlined, 'Archive this title'),
+                _buildItem(Icons.add_to_queue, 'Add to ...'),
+                _buildItem(Icons.check_circle_outline, 'Mark as finished'),
+                _buildItem(Icons.rate_review_outlined, 'Rate & review'),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: 0.5,
+          width: double.infinity,
+          decoration: const BoxDecoration(color: Colors.white24),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0),
+            child: Text(
+              "Close",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildItem(IconData icon, String label, {double iconSize = 24.0}) {
+    return Expanded(
+      child: Row(
+        children: [
+          SizedBox(
+            width: 24.0,
+            child: Icon(
+              icon,
+              color: Colors.white70,
+              size: iconSize,
+            ),
+          ),
+          const SizedBox(width: 16.0),
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 17.0,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
