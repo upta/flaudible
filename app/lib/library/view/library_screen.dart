@@ -43,32 +43,41 @@ class LibraryScreen extends HookConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              delegate: TabHeader(
-                tabs: tabs,
-                tabController: mainTabController,
-                subTabs: subTabs,
-                subTabController: subTabController,
+        child: RefreshIndicator(
+          backgroundColor: const Color.fromARGB(255, 34, 34, 39),
+          color: Colors.orange,
+          strokeWidth: 2.75,
+          edgeOffset: TabHeader.fullHeight,
+          onRefresh: () async {
+            return Future.delayed(const Duration(seconds: 2));
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                delegate: TabHeader(
+                  tabs: tabs,
+                  tabController: mainTabController,
+                  subTabs: subTabs,
+                  subTabController: subTabController,
+                ),
+                pinned: true,
+                floating: true,
               ),
-              pinned: true,
-              floating: true,
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: BookRow(
-                      book: allBooks[index],
-                    ),
-                  );
-                },
-                childCount: allBooks.length,
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BookRow(
+                        book: allBooks[index],
+                      ),
+                    );
+                  },
+                  childCount: allBooks.length,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -88,9 +97,11 @@ class TabHeader extends SliverPersistentHeaderDelegate {
   final List<String> subTabs;
   final TabController subTabController;
 
-  final double _searchHeight = kToolbarHeight;
-  final double _tabsHeight = 40.0;
-  final double _subTabsHeight = 15.0 + 34.0 + 35.0 + 36.0;
+  static double get fullHeight => _searchHeight + _tabsHeight + _subTabsHeight;
+
+  static const double _searchHeight = kToolbarHeight;
+  static const double _tabsHeight = 40.0;
+  static const double _subTabsHeight = 15.0 + 34.0 + 35.0 + 36.0;
 
   @override
   Widget build(
