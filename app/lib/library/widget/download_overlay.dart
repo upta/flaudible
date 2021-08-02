@@ -43,7 +43,7 @@ class _DownloadOverlayPainter extends CustomPainter {
         ..style = PaintingStyle.fill,
     );
 
-    final icon = AudibleIcons.download_arrow;
+    const icon = AudibleIcons.download_arrow;
     final painter = TextPainter(
       textDirection: TextDirection.rtl,
     );

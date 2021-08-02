@@ -50,6 +50,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  diffutil_dart:
+    dependency: transitive
+    description:
+      name: diffutil_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+1"
+  diffutil_sliverlist:
+    dependency: "direct main"
+    description:
+      name: diffutil_sliverlist
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   fading_edge_scrollview:
     dependency: transitive
     description:
@@ -89,7 +103,7 @@ packages:
       name: flutter_riverpod
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0-dev.5"
+    version: "1.0.0-dev.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -108,7 +122,7 @@ packages:
       name: hooks_riverpod
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0-dev.5"
+    version: "1.0.0-dev.6"
   json_annotation:
     dependency: transitive
     description:
@@ -157,7 +171,7 @@ packages:
       name: riverpod
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0-dev.5"
+    version: "1.0.0-dev.6"
   sky_engine:
     dependency: transitive
     description: flutter

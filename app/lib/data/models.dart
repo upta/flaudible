@@ -26,4 +26,15 @@ class Book {
   final bool wasStarted;
   final bool wasFinished;
   final bool isDownloaded;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is Book &&
+            runtimeType == other.runtimeType &&
+            title == other.title;
+  }
+
+  @override
+  get hashCode => title.hashCode;
 }

@@ -1,7 +1,6 @@
 import 'package:flaudible/app/widget/search_button.dart';
-import 'package:flaudible/data/data.dart';
-import 'package:flaudible/library/library.dart';
-import 'package:flaudible/library/provider/all_provider.dart';
+import 'package:flaudible/library/widget/all_sub_tab.dart';
+import 'package:flaudible/library/widget/all_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,29 +16,19 @@ class LibraryScreen extends HookConsumerWidget {
     "Collections",
   ];
 
-  final subTabs = const [
-    "All Titles",
-    "Not Started",
-    "Started",
-    "Downloaded",
-    "Finished",
-  ];
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final allBooks = ref.watch(allBooksProvider);
     final mainTabController = useTabController(initialLength: tabs.length);
-    final subTabController = useTabController(initialLength: subTabs.length);
     final mainTabindex = useState(0);
-    final subTabindex = useState(0);
 
     mainTabController.addListener(() {
       mainTabindex.value = mainTabController.index;
     });
 
-    subTabController.addListener(() {
-      subTabindex.value = subTabController.index;
-    });
+    final tabHeader = TabHeader(
+      tabs: tabs,
+      tabController: mainTabController,
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -47,35 +36,21 @@ class LibraryScreen extends HookConsumerWidget {
           backgroundColor: const Color.fromARGB(255, 34, 34, 39),
           color: Colors.orange,
           strokeWidth: 2.75,
-          edgeOffset: TabHeader.fullHeight,
+          edgeOffset: tabHeader.fullHeight,
           onRefresh: () async {
             return Future.delayed(const Duration(seconds: 2));
           },
           child: CustomScrollView(
             slivers: [
               SliverPersistentHeader(
-                delegate: TabHeader(
-                  tabs: tabs,
-                  tabController: mainTabController,
-                  subTabs: subTabs,
-                  subTabController: subTabController,
-                ),
+                delegate: tabHeader,
                 pinned: true,
                 floating: true,
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: BookRow(
-                        book: allBooks[index],
-                      ),
-                    );
-                  },
-                  childCount: allBooks.length,
-                ),
-              ),
+              SliverOffstage(
+                offstage: mainTabindex.value != 0,
+                sliver: const AllTab(),
+              )
             ],
           ),
         ),
@@ -85,23 +60,21 @@ class LibraryScreen extends HookConsumerWidget {
 }
 
 class TabHeader extends SliverPersistentHeaderDelegate {
-  const TabHeader({
+  TabHeader({
     required this.tabs,
     required this.tabController,
-    required this.subTabs,
-    required this.subTabController,
-  });
+  }) {
+    _subTabsHeight = _calcSubTabHeight();
+  }
 
   final List<String> tabs;
   final TabController tabController;
-  final List<String> subTabs;
-  final TabController subTabController;
 
-  static double get fullHeight => _searchHeight + _tabsHeight + _subTabsHeight;
+  double get fullHeight => _searchHeight + _tabsHeight + _subTabsHeight;
 
-  static const double _searchHeight = kToolbarHeight;
-  static const double _tabsHeight = 40.0;
-  static const double _subTabsHeight = 15.0 + 34.0 + 35.0 + 36.0;
+  final double _searchHeight = kToolbarHeight;
+  final double _tabsHeight = 40.0;
+  double _subTabsHeight = 0.0;
 
   @override
   Widget build(
@@ -184,81 +157,33 @@ class TabHeader extends SliverPersistentHeaderDelegate {
   }
 
   Widget _buildSubTabs() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 15.0,
-          ),
-          TabBar(
-            unselectedLabelColor: Colors.grey,
-            controller: subTabController,
-            labelPadding: const EdgeInsets.only(right: 8.0),
-            tabs: subTabs
-                .map(
-                  (tab) => Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(4.0),
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 6.0,
-                      horizontal: 16.0,
-                    ),
-                    child: Text(
-                      tab,
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-            isScrollable: true,
-            indicator: const BoxDecoration(),
-          ),
-          const SizedBox(
-            height: 25.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "${allBooks.length} titles",
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
+    final tabs = [
+      AllSubTab(),
+    ];
+
+    return Stack(
+      children: tabs
+          .asMap()
+          .map(
+            (i, a) => MapEntry(
+              i,
+              Offstage(
+                child: a,
+                offstage: tabController.index != i,
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Text(
-                    "Release Date",
-                    style: TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_drop_down,
-                    size: 35.0,
-                  ),
-                  SizedBox(
-                    width: 14.0,
-                  ),
-                ],
-              ),
-            ],
+            ),
           )
-        ],
-      ),
+          .values
+          .toList(),
     );
+  }
+
+  double _calcSubTabHeight() {
+    if (tabController.index == 0) {
+      return AllSubTab.height;
+    }
+
+    return 0;
   }
 
   @override
@@ -333,199 +258,6 @@ class MainTabBar extends HookWidget {
             );
           },
         ).toList(),
-      ),
-    );
-  }
-}
-
-class BookRow extends StatelessWidget {
-  const BookRow({
-    Key? key,
-    required this.book,
-  }) : super(key: key);
-
-  final Book book;
-
-  @override
-  Widget build(BuildContext context) {
-    final duration = book.length.inHours > 0
-        ? '${book.length.inHours}h ${book.length.inMinutes % 60}m'
-        : '${book.length.inMinutes % 60}m';
-
-    return Row(
-      children: [
-        SizedBox(
-          width: 93.0,
-          height: 93.0,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              FadeInImage.assetNetwork(
-                placeholder: 'assets/loading.png',
-                image: book.image,
-              ),
-              if (!book.isDownloaded) const DownloadOverlay(),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 13.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  book.title,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                Text(
-                  book.numberOfEpisodes == 0
-                      ? 'By ${book.author}'
-                      : '${book.numberOfEpisodes} episodes',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                if (book.numberOfEpisodes == 0) ...[
-                  const SizedBox(
-                    height: 9.0,
-                  ),
-                  Text(
-                    duration,
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                ]
-              ],
-            ),
-          ),
-        ),
-        _buildMoreIcon(
-          context,
-          book,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMoreIcon(
-    BuildContext context,
-    Book book,
-  ) {
-    if (book.numberOfEpisodes > 0) {
-      return const Padding(
-        padding: EdgeInsets.only(right: 5.0),
-        child: Icon(
-          AudibleIcons.chevron_right,
-          size: 19.0,
-        ),
-      );
-    }
-
-    return GestureDetector(
-      child: const Icon(
-        Icons.more_vert,
-        size: 28.0,
-      ),
-      onTap: () {
-        showModalBottomSheet(
-          isScrollControlled: true,
-          context: context,
-          builder: (BuildContext context) {
-            return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: const MoreSheet(),
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-class MoreSheet extends StatelessWidget {
-  const MoreSheet({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20.0,
-              horizontal: 16.0,
-            ),
-            child: Column(
-              children: [
-                _buildItem(Icons.share_outlined, 'Share'),
-                _buildItem(Icons.details_outlined, 'Details'),
-                _buildItem(
-                  AudibleIcons.download_arrow,
-                  'Download',
-                  iconSize: 16.0,
-                ),
-                _buildItem(Icons.favorite_outline, 'Add to favorites'),
-                _buildItem(Icons.archive_outlined, 'Archive this title'),
-                _buildItem(Icons.add_to_queue, 'Add to ...'),
-                _buildItem(Icons.check_circle_outline, 'Mark as finished'),
-                _buildItem(Icons.rate_review_outlined, 'Rate & review'),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          height: 0.5,
-          width: double.infinity,
-          decoration: const BoxDecoration(color: Colors.white24),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.0),
-            child: Text(
-              "Close",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget _buildItem(IconData icon, String label, {double iconSize = 24.0}) {
-    return Expanded(
-      child: Row(
-        children: [
-          SizedBox(
-            width: 24.0,
-            child: Icon(
-              icon,
-              color: Colors.white70,
-              size: iconSize,
-            ),
-          ),
-          const SizedBox(width: 16.0),
-          Expanded(
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 17.0,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
